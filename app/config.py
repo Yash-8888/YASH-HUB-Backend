@@ -19,6 +19,8 @@ class Settings(BaseSettings):
     first_admin_email: str = "admin@candyhub.gg"
     first_admin_password: str = "change-me-please"
 
+    google_client_id: str = "1046278074092-cn7s7c09334ft03o2grqra7kg2vv2hs5.apps.googleusercontent.com"
+
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
     @property

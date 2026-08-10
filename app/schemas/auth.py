@@ -16,3 +16,7 @@ class LoginRequest(BaseModel):
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
+
+
+class GoogleAuthRequest(BaseModel):
+    credential: str  # the ID token JWT returned by Google's Sign-In button
