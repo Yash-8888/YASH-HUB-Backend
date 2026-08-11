@@ -21,6 +21,7 @@ app.include_router(rewards.router)
 app.include_router(announcements.router)
 app.include_router(leaderboard.router)
 app.include_router(admin.router)
+app.include_router(channel.router)
 
 
 @app.get("/api/health", tags=["health"])
