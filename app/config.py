@@ -20,6 +20,8 @@ class Settings(BaseSettings):
     first_admin_password: str = "change-me-please"
 
     google_client_id: str = "1046278074092-cn7s7c09334ft03o2grqra7kg2vv2hs5.apps.googleusercontent.com"
+    youtube_api_key: str = "AIzaSyAok3pU6LOlAvhJj31BSgAY0K5uJhM30kQ"
+    youtube_channel_id: str = "UCJjHZ5rb_2LXfaRfJkFuetQ"
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 

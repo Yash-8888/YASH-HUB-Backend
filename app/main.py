@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
-from app.routers import auth, users, giveaways, rewards, announcements, leaderboard, admin
+from app.routers import auth, users, giveaways, rewards, announcements, leaderboard, admin, channel
 
 app = FastAPI(title="Candy Hub API", version="0.1.0")
 

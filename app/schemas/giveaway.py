@@ -14,6 +14,7 @@ class GiveawayCreate(BaseModel):
     requirements: str | None = None
     max_winners: int = Field(default=1, ge=1)
     winner_date: datetime
+    sub_goal: int | None = None
 
 
 class GiveawayUpdate(BaseModel):
@@ -41,6 +42,7 @@ class GiveawayPublic(BaseModel):
     status: GiveawayStatus
     entry_count: int
     created_at: datetime
+    sub_goal: int | None
 
 
 class GiveawayEntryResult(BaseModel):

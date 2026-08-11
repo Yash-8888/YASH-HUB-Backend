@@ -24,6 +24,7 @@ def _to_public(g: Giveaway) -> GiveawayPublic:
         status=g.status,
         entry_count=g.entry_count,
         created_at=g.created_at,
+        sub_goal=g.sub_goal,
     )
 
 
@@ -56,6 +57,18 @@ def enter_giveaway(
 
     if g.status != GiveawayStatus.active:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="This giveaway is not active")
+
+    if g.sub_goal:
+        from app.services.youtube import get_subscriber_count
+        try:
+            current = get_subscriber_count()
+        except Exception:
+            current = 0
+        if current < g.sub_goal:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"This giveaway unlocks at {g.sub_goal} subscribers",
+            )
 
     # Roblox username is required to enter — this is how winners get contacted in-game
     if not current_user.roblox_username:

@@ -20,6 +20,7 @@ class Giveaway(Base):
     prize: Mapped[str | None] = mapped_column(String(200), nullable=True)
     requirements: Mapped[str | None] = mapped_column(Text, nullable=True)  # JSON-encoded list, kept simple for MVP
     max_winners: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
+    sub_goal: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
     winner_date: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     status: Mapped[GiveawayStatus] = mapped_column(Enum(GiveawayStatus), default=GiveawayStatus.active, nullable=False)
