@@ -9,8 +9,8 @@ from app.services.deps import get_current_user
 
 router = APIRouter(prefix="/api/ads", tags=["ads"])
 
-COOLDOWN_MINUTES = 60
-POINTS_PER_CLICK = 5
+COOLDOWN_MINUTES = 10
+POINTS_PER_CLICK = 100
 MAX_CLICKS_PER_DAY = 5
 
 
