@@ -4,7 +4,7 @@ from pydantic import BaseModel, EmailStr, Field
 class RegisterRequest(BaseModel):
     email: EmailStr
     password: str = Field(min_length=8, max_length=128)
-    roblox_username: str | None = None
+    roblox_username: str = Field(min_length=1, max_length=100)
     referred_by: str | None = None  # referral code of the inviter, optional
 
 

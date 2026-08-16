@@ -31,11 +31,18 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)):
     )
     db.add(user)
 
-    # Award the referrer points if a valid referral code was supplied (future: move to referrals table)
-    if payload.referred_by:
+    # Award the referrer points if a valid referral code was supplied, capped
+    # at 3 uses per code, and only if the new account has a real Roblox
+    # username (blocks pure email-farming)
+    if payload.referred_by and payload.roblox_username:
+        from app.models import Referral
+
         referrer = db.query(User).filter(User.referral_code == payload.referred_by).first()
-        if referrer:
-            referrer.points += 100
+        if referrer and referrer.id != user.id:
+            uses_so_far = db.query(Referral).filter(Referral.referrer_id == referrer.id).count()
+            if uses_so_far < 3:
+                referrer.points += 100
+                db.add(Referral(referrer_id=referrer.id, referred_user_id=user.id, points_awarded=100))
 
     db.commit()
     db.refresh(user)
