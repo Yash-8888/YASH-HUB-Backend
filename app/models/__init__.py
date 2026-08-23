@@ -4,7 +4,8 @@ from app.models.reward import Reward, UserReward
 from app.models.announcement import Announcement
 from app.models.referral import Referral
 from app.models.ad_click import AdClick
-from app.models.enums import UserRole, GiveawayStatus
+from app.models.trade import Trade
+from app.models.enums import UserRole, GiveawayStatus, TradeType
 
 __all__ = [
     "User",
@@ -15,6 +16,8 @@ __all__ = [
     "Announcement",
     "Referral",
     "AdClick",
+    "Trade",
     "UserRole",
     "GiveawayStatus",
+    "TradeType",
 ]
