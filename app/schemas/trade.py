@@ -3,7 +3,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.models.enums import TradeType
+from app.models.enums import TradeType, RedemptionStatus
 
 
 class TradeCreate(BaseModel):
@@ -27,3 +27,25 @@ class TradePublic(BaseModel):
     image: str | None
     active: bool
     created_at: datetime
+
+
+class TradeRedemptionPublic(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: uuid.UUID
+    trade_id: uuid.UUID
+    user_id: uuid.UUID
+    coupon_code: str
+    status: RedemptionStatus
+    verified_by: uuid.UUID | None
+    verified_at: datetime | None
+    created_at: datetime
+
+
+class ClaimResponse(BaseModel):
+    redemption: TradeRedemptionPublic
+    message: str
+
+
+class VerifyCouponRequest(BaseModel):
+    coupon_code: str = Field(min_length=1, max_length=32)

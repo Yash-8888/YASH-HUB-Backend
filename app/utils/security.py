@@ -36,3 +36,10 @@ def decode_access_token(token: str) -> str | None:
 def generate_referral_code(length: int = 8) -> str:
     alphabet = string.ascii_uppercase + string.digits
     return "".join(secrets.choice(alphabet) for _ in range(length))
+
+
+def generate_coupon_code(length: int = 10) -> str:
+    """CANDY-XXXXXXXXXX style code the user shows a mod on Discord to verify a trade."""
+    alphabet = string.ascii_uppercase + string.digits
+    body = "".join(secrets.choice(alphabet) for _ in range(length))
+    return f"CANDY-{body}"

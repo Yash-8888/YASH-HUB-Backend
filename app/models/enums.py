@@ -16,3 +16,8 @@ class TradeType(str, enum.Enum):
     xp_multiplier = "xp_multiplier"
     fruit = "fruit"
     custom = "custom"
+
+class RedemptionStatus(str, enum.Enum):
+    pending = "pending"
+    verified = "verified"
+    cancelled = "cancelled"
