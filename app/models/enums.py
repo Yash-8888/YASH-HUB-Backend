@@ -17,7 +17,3 @@ class TradeType(str, enum.Enum):
     fruit = "fruit"
     custom = "custom"
 
-class RedemptionStatus(str, enum.Enum):
-    pending = "pending"
-    verified = "verified"
-    cancelled = "cancelled"

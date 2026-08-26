@@ -6,7 +6,19 @@ from app.models.referral import Referral
 from app.models.ad_click import AdClick
 from app.models.trade import Trade
 from app.models.trade_redemption import TradeRedemption
-from app.models.enums import UserRole, GiveawayStatus, TradeType, RedemptionStatus
+from app.models.fruit import Fruit
+from app.models.fruit_listing import FruitListing
+from app.models.fruit_offer import FruitOffer
+from app.models.enums import (
+    UserRole,
+    GiveawayStatus,
+    TradeType,
+    RedemptionStatus,
+    FruitCategory,
+    ListingType,
+    ListingStatus,
+    OfferStatus,
+)
 
 __all__ = [
     "User",
@@ -19,8 +31,15 @@ __all__ = [
     "AdClick",
     "Trade",
     "TradeRedemption",
+    "Fruit",
+    "FruitListing",
+    "FruitOffer",
     "UserRole",
     "GiveawayStatus",
     "TradeType",
     "RedemptionStatus",
+    "FruitCategory",
+    "ListingType",
+    "ListingStatus",
+    "OfferStatus",
 ]
