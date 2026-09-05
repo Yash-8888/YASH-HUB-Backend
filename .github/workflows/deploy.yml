@@ -1,0 +1,36 @@
+name: Deploy Backend
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Sync code to deploy directory
+        run: |
+          rsync -av --exclude='.env' --exclude='venv' --exclude='__pycache__' \
+            $GITHUB_WORKSPACE/ /home/yash/apps/CandyHub-full/CandyHub/backend/
+
+      - name: Install dependencies
+        run: |
+          cd /home/yash/apps/CandyHub-full/CandyHub/backend
+          source venv/bin/activate
+          pip install -r requirements.txt
+
+      - name: Ensure tables exist
+        run: |
+          cd /home/yash/apps/CandyHub-full/CandyHub/backend
+          source venv/bin/activate
+          python3 -c "
+          from app.database.session import Base, engine
+          from app.models import *
+          Base.metadata.create_all(bind=engine)
+          "
+
+      - name: Restart backend service
+        run: sudo systemctl restart candyhub-backend
