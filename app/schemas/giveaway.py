@@ -48,3 +48,14 @@ class GiveawayPublic(BaseModel):
 class GiveawayEntryResult(BaseModel):
     message: str
     entry_count: int
+
+
+class GiveawayEntryPublic(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: uuid.UUID
+    user_id: uuid.UUID
+    email: str
+    roblox_username: str | None
+    is_winner: bool
+    created_at: datetime

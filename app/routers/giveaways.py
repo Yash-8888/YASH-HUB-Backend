@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import User, Giveaway, GiveawayEntry, GiveawayStatus
-from app.schemas.giveaway import GiveawayCreate, GiveawayUpdate, GiveawayPublic, GiveawayEntryResult
+from app.schemas.giveaway import GiveawayCreate, GiveawayUpdate, GiveawayPublic, GiveawayEntryResult, GiveawayEntryPublic
 from app.services.deps import get_current_user, require_admin
 
 router = APIRouter(prefix="/api/giveaways", tags=["giveaways"])
@@ -94,6 +94,29 @@ def enter_giveaway(
 
 
 # --- Admin-only endpoints ---
+
+
+@router.get("/{giveaway_id}/entries", response_model=list[GiveawayEntryPublic])
+def get_entries(
+    giveaway_id: uuid.UUID,
+    _admin: User = Depends(require_admin),
+    db: Session = Depends(get_db),
+):
+    g = db.query(Giveaway).filter(Giveaway.id == giveaway_id).first()
+    if not g:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Giveaway not found")
+
+    return [
+        GiveawayEntryPublic(
+            id=e.id,
+            user_id=e.user_id,
+            email=e.user.email,
+            roblox_username=e.user.roblox_username,
+            is_winner=e.is_winner,
+            created_at=e.created_at,
+        )
+        for e in g.entries
+    ]
 
 
 @router.post("", response_model=GiveawayPublic, status_code=status.HTTP_201_CREATED)
