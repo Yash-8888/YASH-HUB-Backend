@@ -16,21 +16,13 @@ jobs:
           rsync -av --exclude='.env' --exclude='venv' --exclude='__pycache__' \
             $GITHUB_WORKSPACE/ /home/yash/apps/CandyHub-full/CandyHub/backend/
 
-      - name: Install dependencies
+      - name: Rebuild backend container
         run: |
-          cd /home/yash/apps/CandyHub-full/CandyHub/backend
-          source venv/bin/activate
-          pip install -r requirements.txt
+          cd /home/yash/apps/CandyHub-full/CandyHub
+          docker compose up -d --build --no-deps backend
 
       - name: Ensure tables exist
         run: |
-          cd /home/yash/apps/CandyHub-full/CandyHub/backend
-          source venv/bin/activate
-          python3 -c "
-          from app.database.session import Base, engine
-          from app.models import *
-          Base.metadata.create_all(bind=engine)
-          "
-
-      - name: Restart backend service
-        run: sudo systemctl restart candyhub-backend
+          cd /home/yash/apps/CandyHub-full/CandyHub
+          sleep 5
+          docker compose exec -T backend python -c "from app.database.session import Base, engine; from app.models import *; Base.metadata.create_all(bind=engine)"
