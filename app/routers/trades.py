@@ -27,6 +27,32 @@ def list_trades(db: Session = Depends(get_db)):
     return db.query(Trade).filter(Trade.active == True).order_by(Trade.points_cost.asc()).all()
 
 
+@router.post("", response_model=TradePublic, status_code=status.HTTP_201_CREATED)
+def create_trade(
+    payload: TradeCreate,
+    _admin: User = Depends(require_admin),
+    db: Session = Depends(get_db),
+):
+    trade = Trade(**payload.model_dump())
+    db.add(trade)
+    db.commit()
+    db.refresh(trade)
+    return trade
+
+
+@router.delete("/{trade_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_trade(
+    trade_id: uuid.UUID,
+    _admin: User = Depends(require_admin),
+    db: Session = Depends(get_db),
+):
+    trade = db.query(Trade).filter(Trade.id == trade_id, Trade.active == True).first()
+    if not trade:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Trade not found")
+    trade.active = False
+    db.commit()
+
+
 @router.post("/{trade_id}/claim", response_model=ClaimResponse)
 def claim_trade(
     trade_id: uuid.UUID,
